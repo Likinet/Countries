@@ -1,6 +1,6 @@
-import './navbar.styles.css';
+import './searchbar.styles.css';
 
-function Navbar({ handleChange, handleSubmit }) {
+function Searchbar({ handleChange, handleSubmit }) {
     return (
         <div className='search-box'>
             <form onChange={handleChange}>
@@ -11,4 +11,4 @@ function Navbar({ handleChange, handleSubmit }) {
     );
 }
 
-export default Navbar;
+export default Searchbar;

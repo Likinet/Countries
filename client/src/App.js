@@ -5,11 +5,11 @@ import Home from './views/home/home.component';
 import Detail from './views/detail/detail.component';
 import Create from './views/create/create.component';
 
-// import './App.css';
+import './App.css';
 
 function App() {
   return (
-    <div>
+    <div className='app-container'>
       <Switch>
         <Route exact path='/' component={Landing}/>
         <Route exact path='/home' component={Home}/>

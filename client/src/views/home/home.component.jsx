@@ -1,12 +1,15 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import {    getCountries,
             getCountriesByName,
             orderCountriesByName,
             orderCountriesByPopulation,
-            filterCountriesByContinent } from '../../redux/actions'
+            filterCountriesByContinent,
+            filterCountriesByActivity, 
+            getActivities} from '../../redux/actions';
 
-import Navbar from '../../components/navbar/navbar.component';
+import Searchbar from '../../components/searchbar/searchbar.component';
 import Cards from '../../components/cards/cards.component';
 
 import './home.styles.css';
@@ -16,9 +19,11 @@ function Home() {
 
     const dispatch = useDispatch();
     const allCountries = useSelector((state)=>state.allCountries);
+    const allActivities = useSelector((state)=>state.activities);
     const [searchString, setSearchString] = useState('');
     const [order, setOrder] = useState('');
-    const [filter, setFilter] = useState('');
+    const [filter, setFilter] = useState({  continent:'',
+                                            activity:''});
 
     function handleChange(event) {
         event.preventDefault();
@@ -42,23 +47,34 @@ function Home() {
     };
 
     function handleFilter(event){
-        dispatch(filterCountriesByContinent(event.target.value));
-        setFilter(event.target.value);
+        const filterType = event.target.name;
+        const value = event.target.value;
+
+        if (filterType === 'filterContinent') {
+            dispatch(filterCountriesByContinent(value));
+        };
+        if (filterType === 'filterActivity') {
+            dispatch(filterCountriesByActivity(value));
+        };
+        setFilter({ ...filter, [filterType]: value });
     };
 
     useEffect(()=>{
-        dispatch(getCountries());
-    }, [dispatch]);
+        dispatch(getActivities());
+        if (!allCountries.length)
+            dispatch(getCountries());
+    }, [dispatch, allCountries]);
     
     return (
         <div className='home-container'>
-            <Navbar handleChange={ handleChange } handleSubmit={ handleSubmit }/>
+            <Searchbar handleChange={ handleChange } handleSubmit={ handleSubmit }/>
+            <Link to="/create" className="landing-button" style={{ textDecoration: 'none' , color: 'white' }}>New activity</Link>
 
 
             <div>
-                <label for="order" value={order}>Order by: </label>
-                <select name='order' onChange={handleOrder}>
-                    <option value="" selected>--Please choose an option--</option>
+                <label htmlFor="order">Order by: </label>
+                <select name='order' value={order} onChange={handleOrder}>
+                    <option value="">Please choose an option</option>
                     <optgroup label="Country names">
                         <option value="A-Z">A-Z countries</option>
                         <option value="Z-A">Z-A countries</option>
@@ -68,10 +84,10 @@ function Home() {
                         <option value="Falling">Falling population</option>
                     </optgroup>
                 </select>
-                <label for="filter">Filter by: </label>
-                <select name='filter' onChange={handleFilter}>
+                <label htmlFor="filterContinent">Filter by: </label>
+                <select name='filterContinent' value={filter} onChange={handleFilter}>
                     <option value='filter' disabled='disabled' >Filter by continent...</option>
-                    <option value='All' selected>All</option>
+                    <option value='All'>All continents</option>
                     <option value='Antarctica'>Antarctica</option>
                     <option value='North America'>North America</option>
                     <option value='Oceania'>Oceania</option>
@@ -79,6 +95,17 @@ function Home() {
                     <option value='Europe'>Europe</option>
                     <option value='Africa'>Africa</option>
                     <option value='Asia'>Asia</option>
+                </select>
+                
+                <label htmlFor='filterActivity'>Activities: </label>
+                <select
+                    name='filterActivity'
+                    onChange={handleFilter}>
+                    <option disabled='disabled' >Filter by activity...</option>
+                    <option value='All'> All activities </option>
+                    {allActivities?.map(activity =>
+                        <option key={activity.id} value={activity.name}>{activity.name}</option>
+                    )}
                 </select>
             </div>
 

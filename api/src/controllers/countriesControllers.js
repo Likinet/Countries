@@ -3,8 +3,21 @@ const { Op } = require('sequelize');
 
 const getCountries = async (name) => {
     const response =    (name)
-                        ? await Country.findAll({ where: {name: {[Op.iLike]: `%${name}%`}} })
-                        : await Country.findAll();
+                        ? await Country.findAll({   where: {name: {[Op.iLike]: `%${name}%`}},
+                                                    include: [
+                                                        {
+                                                            model: Activity,
+                                                            attributes: ['name'],
+                                                            through: { attributes: [] }
+                                                        }
+                                                    ]})
+                        : await Country.findAll({   include: [
+                                                        {
+                                                            model: Activity,
+                                                            attributes: ['name'],
+                                                            through: { attributes: [] }
+                                                        }
+                                                    ]});
     return response;
 };
 const getCountryById = async (idCountry) => {

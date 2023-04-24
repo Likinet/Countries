@@ -1,11 +1,19 @@
 import {GET_COUNTRIES,
         GET_COUNTRIES_BY_NAME,
+        GET_COUNTRY_BY_ID,
         ORDER_COUNTRIES_BY_NAME, 
         ORDER_COUNTRIES_BY_POPULATION,
-        FILTER_COUNTRIES_BY_CONTINENT} from '../actions';
+        FILTER_COUNTRIES_BY_CONTINENT,
+        FILTER_COUNTRIES_BY_ACTIVITY,
+        CLEAR_COUNTRY_DETAIL,
+        POST_ACTIVITY,
+        GET_ACTIVITIES} from '../actions';
 
 let initialState = {    allCountries: [],
-                        allCountriesCopy: []};
+                        allCountriesCopy: [],
+                        fullCountries: [],
+                        activities: [],
+                        countryDetail: {}};
 
 function compararPorNombre(a, b) {
     if (a < b) {
@@ -17,19 +25,32 @@ function compararPorNombre(a, b) {
     return 0;
 };
 
+function filterActivity(activities, name) {
+    for (let activity of activities) {
+        if (activity.name === name) return true
+    }
+    return false;
+}
+
 function rootReducer(state = initialState, action){
     switch (action.type) {
         case GET_COUNTRIES:
             return {
                 ...state,
                 allCountries: action.payload,
-                allCountriesCopy: action.payload
+                allCountriesCopy: action.payload,
+                fullCountries: action.payload.sort((country1, country2) => compararPorNombre(country1.name,country2.name))
             };
         case GET_COUNTRIES_BY_NAME:
             return {
                 ...state,
                 allCountries: action.payload,
                 allCountriesCopy: action.payload
+            };
+        case GET_COUNTRY_BY_ID:
+            return {
+                ...state,
+                countryDetail: action.payload
             };
         case ORDER_COUNTRIES_BY_NAME:
             return {
@@ -57,6 +78,27 @@ function rootReducer(state = initialState, action){
                 allCountries:   action.payload === 'All'
                                 ? [...state.allCountriesCopy]
                                 : [...state.allCountriesCopy].filter(country => country.continents.includes(action.payload))
+            };
+        case FILTER_COUNTRIES_BY_ACTIVITY:
+            return {
+                ...state,
+                allCountries:   action.payload === 'All'
+                                ? [...state.allCountriesCopy]
+                                : [...state.allCountriesCopy].filter(country => filterActivity(country.Activities, action.payload))//*
+            };
+        case CLEAR_COUNTRY_DETAIL:
+            return {
+                ...state,
+                countryDetail: {}
+            };
+        case POST_ACTIVITY:
+            return {
+                ...state,
+            };
+        case GET_ACTIVITIES:
+            return {
+                ...state,
+                activities: action.payload.sort((activity1, activity2) => compararPorNombre(activity1.name,activity2.name))
             };
 
         default:

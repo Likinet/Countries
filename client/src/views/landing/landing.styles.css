@@ -1,0 +1,23 @@
+.landing-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url('../../img/img_landing.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.landing-text {
+    margin-right: 10px;
+}
+
+.landing-button {
+    border-radius: 20px;
+    padding: 10px 20px;
+    background: #333;
+    color: #fff;
+    border: none;
+}

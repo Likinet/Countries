@@ -1,12 +1,12 @@
 body {
-  background-color: rgb(98, 153, 149);
-  /* background: linear-gradient(to bottom, #c43e3e, #422809); */
-}
-body {
-  /* background: linear-gradient(to bottom, #c43e3e, #422809); */
+  width: 100%;
+  height: 100%;
   margin: 0;
-  padding: 0;
-  height: 130vh;
+  /* background: linear-gradient(to bottom, #c43e3e, #422809); */
+  /* background-size: cover;
+  background-repeat: no-repeat; */
+  background-color: #3a6a78;
+
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
