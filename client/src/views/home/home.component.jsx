@@ -7,8 +7,6 @@ import {
     orderCountriesByName,
     orderCountriesByPopulation,
     filterCountries,
-    // filterCountriesByContinent,
-    // filterCountriesByActivity,
     getActivities
 } from '../../redux/actions';
 
@@ -53,11 +51,11 @@ function Home() {
     };
 
     function handleOrder(event) {
-        setOrder(event.target.value);
-        if (order === 'A-Z' || order === 'Z-A')
+        if (event.target.value === 'A-Z' || event.target.value === 'Z-A')
             dispatch(orderCountriesByName(event.target.value))
         else
             dispatch(orderCountriesByPopulation(event.target.value));
+        setOrder(event.target.value);
         handlePage(1);
     };
 
@@ -65,14 +63,7 @@ function Home() {
         const filterType = event.target.name;
         const value = event.target.value;
 
-
         dispatch(filterCountries({ ...filter, [filterType]: value }));
-        // if (filterType === 'filterContinent') {
-        //     dispatch(filterCountriesByContinent(value));
-        // };
-        // if (filterType === 'filterActivity') {
-        //     dispatch(filterCountriesByActivity(value));
-        // };
         setFilter({ ...filter, [filterType]: value });
         handlePage(1);
     };
@@ -98,7 +89,7 @@ function Home() {
                 <div className='filter-container'>
                     <label htmlFor="order"></label>
                     <select name='order' onChange={handleOrder}>
-                        <option value="" disabled='disabled'>Order by...</option>
+                        <option value={order} disabled='disabled'>Order by...</option>
                         <optgroup label="Country names">
                             <option value="A-Z">A-Z countries</option>
                             <option value="Z-A">Z-A countries</option>
@@ -109,7 +100,9 @@ function Home() {
                         </optgroup>
                     </select>
                     <label htmlFor="continent"></label>
-                    <select name='continent' onChange={handleFilter}>
+                    <select name='continent'
+                        value={filter.continent}
+                        onChange={handleFilter}>
                         <option value='filter' disabled='disabled'>Filter by continent...</option>
                         <option value='All'>All continents</option>
                         <option value='Antarctica'>Antarctica</option>
@@ -124,6 +117,7 @@ function Home() {
                     <label htmlFor='activity'></label>
                     <select
                         name='activity'
+                        value={filter.activity}
                         onChange={handleFilter}>
                         <option disabled='disabled' >Filter by activity...</option>
                         <option value='All'> All activities </option>

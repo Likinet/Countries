@@ -1,9 +1,9 @@
 .landing-container {
     height: 100vh;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: center;
-    background-image: url('../../img/Landing.png');
+    background-image: url('../../img/CountriesLanding.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
@@ -23,6 +23,16 @@
     transition: background-color 0.2s ease-in-out;
     text-decoration: none;
     color: inherit;
+}
+
+.landing-container .button{
+    margin: 10rem;
+    padding: 1rem;
+    min-width: 5rem;
+    text-align: center;
+    font-weight: bolder;
+    font-size: larger;
+    border: 1px solid #bccbdc;
 }
 
 .button:hover {
