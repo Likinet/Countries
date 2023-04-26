@@ -11,10 +11,10 @@ import './detail.styles.css';
 
 function Detail() {
     const dispatch = useDispatch();
-    const {id} = useParams();
+    const { id } = useParams();
     const countryDetail = useSelector((state) => state.countryDetail);
 
-    useEffect(()=>{
+    useEffect(() => {
         dispatch(getCountryById(id));
         return (() => {
             dispatch(clearCountryDetail())
@@ -23,30 +23,38 @@ function Detail() {
 
     return (
         <div>
-            { countryDetail.id? 
-                <div key={countryDetail.id} className='countryDetail-container'>
-                    <Link to="/home" className="landing-button" style={{ textDecoration: 'none' , color: 'white' }}>Back</Link>
-                    <p>
-                        <img src={countryDetail.flag} alt={`${countryDetail.name} flag`} width='300px' />
-                    </p>
-                    <p>
-                        <h3>{countryDetail.name} ({countryDetail.id})</h3>
-                        {<p>Continents: {countryDetail.continents?.map(continent => <span key={continent}>{continent} </span>)}</p>}
-                        {<p>Capitals:   {countryDetail.capitals?.map(capital => <span key={capital}>{capital} </span>)}</p>}
-                        {countryDetail.subregion      && <p>Subregion: {countryDetail.subregion}</p>}
-                        {countryDetail.area > 0       && <p>Area: {countryDetail.area}</p>}
-                        {countryDetail.population > 0 && <p>Population: {countryDetail.population}</p>}
-                    </p>
-                    <p>
-                        <h3>Activities: </h3>
-                        {countryDetail.Activities?.length
-                        ?   <div>
-                                {countryDetail.Activities?.map(activity => <Activity key={activity.id} activityDetail={activity}/>)}
-                            </div>
-                        :   <span>No registered activities</span>}
-                    </p>
+            <div className='header-container'>
+                <div className='logo-view'>
+                {/* <img src="img/aeroplano.png" alt="logo" /> */}
+                    <h2>Country detail</h2>
                 </div>
-            : <div>Loading...</div>
+                <Link to="/home" className="button">Back</Link>
+            </div>
+            {countryDetail.id ?
+                <div key={countryDetail.id} className='countryDetail-container'>
+                    <div className='countryDetail'>
+                        <div>
+                            <img src={countryDetail.flag} alt={`${countryDetail.name} flag`} width='300px' />
+                        </div>
+                        <div>
+                            <h3>{countryDetail.name} ({countryDetail.id})</h3>
+                            {<p>Continents: {countryDetail.continents?.map(continent => <span key={continent}>{continent} </span>)}</p>}
+                            {<p>Capitals:   {countryDetail.capitals?.map(capital => <span key={capital}>{capital} </span>)}</p>}
+                            {countryDetail.subregion && <p>Subregion: {countryDetail.subregion}</p>}
+                            {countryDetail.area > 0 && <p>Area: {countryDetail.area}</p>}
+                            {countryDetail.population > 0 && <p>Population: {countryDetail.population}</p>}
+                        </div>
+                    </div>
+                    <h3>Activities:</h3>
+                    <div>
+                        {countryDetail.Activities?.length
+                            ? <div className='countryActivities-container'>
+                                {countryDetail.Activities?.map(activity => <Activity key={activity.id} activityDetail={activity} />)}
+                            </div>
+                            : <span>No registered activities</span>}
+                    </div>
+                </div>
+                : <div>Loading...</div>
             }
         </div>
     );

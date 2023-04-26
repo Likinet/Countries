@@ -8,8 +8,8 @@ function Card( { country }) {
     return (
         <div className='card-container'>
             <Link to={`/home/${id}`} style={{ textDecoration: 'none' , color: 'black' }}>
-                <img src={flag} alt={`${name} flag`}/>
                 <h2>{name}</h2>
+                <img src={flag} alt={`${name} flag`}/>
                 <p>{continents}</p>
             </Link>
         </div>

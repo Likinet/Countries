@@ -2,15 +2,13 @@ import Card from '../../components/card/card.component';
 
 import './cards.styles.css';
 
-function Cards({ allCountries }) {
-
-    const countriesList = allCountries;
+function Cards({ currentsCountries }) {
 
     return (
         <div className='cards-container'>
-        {
-            countriesList?.map(country => <Card key={country.id} country={country} />)
-        }
+            {
+                currentsCountries?.map(country => <Card key={country.id} country={country} />)
+            }
         </div>
     );
 }

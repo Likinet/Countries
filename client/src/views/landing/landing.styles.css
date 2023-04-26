@@ -1,23 +1,32 @@
 .landing-container {
-    width: 100%;
-    height: 100%;
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-image: url('../../img/img_landing.jpg');
+    background-image: url('../../img/Landing.png');
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: center center;
+    background-position: center;
 }
 
 .landing-text {
     margin-right: 10px;
 }
 
-.landing-button {
-    border-radius: 20px;
-    padding: 10px 20px;
-    background: #333;
-    color: #fff;
+.button {
     border: none;
+    border-radius: 0.5em;
+    padding: 0.5rem 1rem;
+    background-color: #e6e6e64d;
+    color: #333;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s ease-in-out;
+    text-decoration: none;
+    color: inherit;
+}
+
+.button:hover {
+    cursor: pointer;
+    background-color: #f2f2f28e;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
 }

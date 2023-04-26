@@ -5,7 +5,7 @@ function Searchbar({ handleChange, handleSubmit }) {
         <div className='search-box'>
             <form onChange={handleChange}>
                 <input type='search' placeholder="Country name" />
-                <button type='submit' onClick={handleSubmit}>Search</button>
+                <button type='submit' onClick={handleSubmit} className='button'>Search</button>
             </form>
         </div>
     );

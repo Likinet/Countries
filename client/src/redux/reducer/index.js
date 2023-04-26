@@ -3,8 +3,9 @@ import {GET_COUNTRIES,
         GET_COUNTRY_BY_ID,
         ORDER_COUNTRIES_BY_NAME, 
         ORDER_COUNTRIES_BY_POPULATION,
-        FILTER_COUNTRIES_BY_CONTINENT,
-        FILTER_COUNTRIES_BY_ACTIVITY,
+        FILTER_COUNTRIES,
+        // FILTER_COUNTRIES_BY_CONTINENT,
+        // FILTER_COUNTRIES_BY_ACTIVITY,
         CLEAR_COUNTRY_DETAIL,
         POST_ACTIVITY,
         GET_ACTIVITIES} from '../actions';
@@ -35,17 +36,18 @@ function filterActivity(activities, name) {
 function rootReducer(state = initialState, action){
     switch (action.type) {
         case GET_COUNTRIES:
+            const sortedCountries = action.payload.sort((country1, country2) => compararPorNombre(country1.name,country2.name));
             return {
                 ...state,
-                allCountries: action.payload,
-                allCountriesCopy: action.payload,
-                fullCountries: action.payload.sort((country1, country2) => compararPorNombre(country1.name,country2.name))
+                allCountries: sortedCountries,
+                allCountriesCopy: sortedCountries,
+                fullCountries: sortedCountries
             };
         case GET_COUNTRIES_BY_NAME:
             return {
                 ...state,
-                allCountries: action.payload,
-                allCountriesCopy: action.payload
+                allCountries: action.payload.sort((country1, country2) => compararPorNombre(country1.name,country2.name)),
+                allCountriesCopy: action.payload.sort((country1, country2) => compararPorNombre(country1.name,country2.name))
             };
         case GET_COUNTRY_BY_ID:
             return {
@@ -72,20 +74,31 @@ function rootReducer(state = initialState, action){
                                 ? [...state.allCountriesCopy].sort((country1, country2) => country1.population - country2.population)
                                 : [...state.allCountriesCopy].sort((country1, country2) => country2.population - country1.population),
             };
-        case FILTER_COUNTRIES_BY_CONTINENT:
-            return {
+            case FILTER_COUNTRIES:
+                const {continent, activity} = action.payload;
+                const filteredCountries =   continent === 'All'
+                                            ? [...state.allCountriesCopy]
+                                            : [...state.allCountriesCopy].filter(country => country.continents.includes(continent));
+                return {
                 ...state,
-                allCountries:   action.payload === 'All'
-                                ? [...state.allCountriesCopy]
-                                : [...state.allCountriesCopy].filter(country => country.continents.includes(action.payload))
-            };
-        case FILTER_COUNTRIES_BY_ACTIVITY:
-            return {
-                ...state,
-                allCountries:   action.payload === 'All'
-                                ? [...state.allCountriesCopy]
-                                : [...state.allCountriesCopy].filter(country => filterActivity(country.Activities, action.payload))//*
-            };
+                allCountries:   activity === 'All'
+                                ? filteredCountries
+                                : filteredCountries.filter(country => filterActivity(country.Activities, activity))
+                };
+        // case FILTER_COUNTRIES_BY_CONTINENT:
+        //     return {
+        //         ...state,
+        //         allCountries:   action.payload === 'All'
+        //                         ? [...state.allCountriesCopy]
+        //                         : [...state.allCountriesCopy].filter(country => country.continents.includes(action.payload))
+        //     };
+        // case FILTER_COUNTRIES_BY_ACTIVITY:
+        //     return {
+        //         ...state,
+        //         allCountries:   action.payload === 'All'
+        //                         ? [...state.allCountriesCopy]
+        //                         : [...state.allCountriesCopy].filter(country => filterActivity(country.Activities, action.payload))//*
+        //     };
         case CLEAR_COUNTRY_DETAIL:
             return {
                 ...state,
